@@ -2,13 +2,19 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 from io import BytesIO
 
+import os
+
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
-        self.wfile.write(b'Hello, world and Todd!')
+        # Send message back to client
+        message = "Hello world!"
+        message += os.environ['stuff']
+        # Write content as utf-8 data
+        self.wfile.write(bytes(message, "utf8"))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -22,5 +28,5 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(response.getvalue())
 
 
-httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
+httpd = HTTPServer(('localhost', 80), SimpleHTTPRequestHandler)
 httpd.serve_forever()
