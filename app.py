@@ -11,7 +11,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
         # Send message back to client
-        message = "Hello world!"
+        message = "Hello world!! "
         message += os.environ['stuff']
         # Write content as utf-8 data
         self.wfile.write(bytes(message, "utf8"))
